@@ -1,0 +1,1 @@
+from app.modules.auth.infrastructure.models import AuthModel
