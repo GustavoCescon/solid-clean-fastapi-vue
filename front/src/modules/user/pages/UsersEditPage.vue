@@ -18,11 +18,11 @@
       <template #content>
         <UserForm
           :name="name"
-          :email="email"
           :lastName="lastName"
+          :cpf="cpf"
           @update:name="name = $event"
-          @update:email="email = $event"
           @update:lastName="lastName = $event"
+          @update:cpf="onCpfInput($event)"
           @submit="update"
           @cancel="router.push('/users')"
         />
@@ -43,7 +43,7 @@ import { useUpdateUser } from '../composables/useUpdateUser'
 
 const route = useRoute()
 const router = useRouter()
-const { name, email, lastName, update, loadUser } = useUpdateUser()
+const { name, email, lastName, cpf, update, loadUser, onCpfInput } = useUpdateUser()
 
 onMounted(() => loadUser(route.params.id))
 </script>

@@ -22,10 +22,12 @@
         <UserForm
           :name="name"
           :lastName="lastName"
+          :cpf="cpf"
           :loading="loading"
           :errors="errors"
           @update:name="name = $event"
           @update:lastName="lastName = $event"
+          @update:cpf="onCpfInput($event)"
           @submit="submit"
           @cancel="router.push('/users')"
         />
@@ -45,5 +47,5 @@ import Message from 'primevue/message'
 import { useCreateUserForm } from '../composables/useCreateUserForm'
 
 const router = useRouter()
-const { name, lastName, loading, error, submit, errors} = useCreateUserForm()
+const { name, lastName, cpf, loading, error, submit, errors, onCpfInput } = useCreateUserForm()
 </script>

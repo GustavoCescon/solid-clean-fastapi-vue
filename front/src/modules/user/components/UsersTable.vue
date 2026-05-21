@@ -15,6 +15,7 @@
     <Column field="id" header="ID" style="width: 5rem" />
     <Column field="name" header="Nome" />
     <Column field="lastName" header="Sobrenome" />
+    <Column field="cpf" header="CPF" />
 
     <Column header="Ações" style="width: 9rem">
       <template #body="{ data }">
