@@ -14,6 +14,6 @@ class CreateUserUseCase:
     def execute(self, name: str, lastName: str):
         self.validator.validate_for_creation(name, lastName)
         user = User(None, name, lastName)
-        self.repo.create(user)
+        created = self.repo.create(user)
         # self.email_service.send_welcome(user.email, user.name)
-        return user
+        return created
