@@ -24,7 +24,7 @@ class UserMapper:
     @staticmethod
     def to_response(entity: User) -> dict:
         cpf = entity.cpf
-        masked = f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}" if len(cpf) == 11 else cpf
+        masked = f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}" if cpf and len(cpf) == 11 else cpf
         return {
             "id": entity.id,
             "name": entity.name,

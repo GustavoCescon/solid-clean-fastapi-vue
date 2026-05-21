@@ -8,7 +8,7 @@ class User:
     id: int | None
     name: str
     lastName: str
-    cpf: str
+    cpf: str | None = None
     createdAt: datetime | None = None
 
     def __post_init__(self):
@@ -16,9 +16,10 @@ class User:
             raise ValueError("name is required")
         if not self.lastName:
             raise ValueError("lastName is required")
-        self.cpf = self._strip_cpf(self.cpf)
-        if not self._is_valid_cpf(self.cpf):
-            raise ValueError("Invalid CPF")
+        if self.cpf is not None:
+            self.cpf = self._strip_cpf(self.cpf)
+            if not self._is_valid_cpf(self.cpf):
+                raise ValueError("Invalid CPF")
 
     @staticmethod
     def _strip_cpf(cpf: str) -> str:
