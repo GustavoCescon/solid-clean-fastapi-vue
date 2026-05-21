@@ -1,4 +1,6 @@
 from app.core.errors.base import AppException
+from app.modules.user.infrastructure.mapper import UserMapper
+
 
 class GetUserUseCase:
 
@@ -11,4 +13,4 @@ class GetUserUseCase:
         if not user:
             raise AppException("User not found", 404)
 
-        return user
+        return UserMapper.to_response(user)

@@ -18,7 +18,7 @@ def get_repo(db=Depends(get_db)):
 @router.post("")
 def create(user: CreateUserDTO, repo=Depends(get_repo)):
     use_case = CreateUserUseCase(repo)
-    return use_case.execute(user.name, user.lastName)
+    return use_case.execute(user.name, user.lastName, user.cpf)
 
 @router.get("")
 def list_users(page: int = 1, size: int = 10, current_user=Depends(get_current_user), repo=Depends(get_repo)):
@@ -34,7 +34,7 @@ def get_user_by_id(id: int, current_user=Depends(get_current_user), repo=Depends
 @router.put("/{id}")
 def update_user(id: int, user: CreateUserDTO, current_user=Depends(get_current_user), repo=Depends(get_repo)):
     use_case = PutUserUseCase(repo)
-    return use_case.execute(id, user.name, user.lastName)
+    return use_case.execute(id, user.name, user.lastName, user.cpf)
 
 @router.delete("/{id}")
 def delete_user(id: int, current_user=Depends(get_current_user), repo=Depends(get_repo)):

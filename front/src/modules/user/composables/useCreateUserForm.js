@@ -6,9 +6,17 @@ import { useUsers } from "./useUsers"
 
 import { z } from "zod"
 
+import { CpfValidSpecification, maskCpf, stripCpf } from "../specifications/CpfSpecification"
+
+const cpfSpec = new CpfValidSpecification()
+
 const schema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   lastName: z.string().min(1, "Sobrenome é obrigatório"),
+  cpf: z
+    .string()
+    .min(14, "CPF inválido")
+    .refine((val) => cpfSpec.isSatisfiedBy(val), { message: "CPF inválido" }),
 })
 
 export function useCreateUserForm() {
@@ -18,6 +26,8 @@ export function useCreateUserForm() {
 
   const lastName = ref("")
 
+  const cpf = ref("")
+
   const errors = ref({})
 
   const {
@@ -26,8 +36,12 @@ export function useCreateUserForm() {
     error,
   } = useUsers()
 
+  const onCpfInput = (value) => {
+    cpf.value = maskCpf(value)
+  }
+
   const submit = async () => {
-    const result = schema.safeParse({ name: name.value, lastName: lastName.value })
+    const result = schema.safeParse({ name: name.value, lastName: lastName.value, cpf: cpf.value })
 
     if (!result.success) {
       errors.value = result.error.flatten().fieldErrors
@@ -40,6 +54,7 @@ export function useCreateUserForm() {
       await saveUser({
         name: name.value,
         lastName: lastName.value,
+        cpf: stripCpf(cpf.value),
       })
 
       router.push("/users")
@@ -52,10 +67,12 @@ export function useCreateUserForm() {
   return {
     name,
     lastName,
+    cpf,
     errors,
     loading,
     error,
 
+    onCpfInput,
     submit,
   }
 }

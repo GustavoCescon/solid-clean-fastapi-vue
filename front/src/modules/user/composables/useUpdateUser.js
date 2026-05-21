@@ -2,6 +2,7 @@ import { ref } from "vue"
 import { useRouter } from "vue-router"
 
 import { getUserById, updateUser } from "../services/userService"
+import { maskCpf, stripCpf } from "../specifications/CpfSpecification"
 
 export function useUpdateUser() {
   const router = useRouter()
@@ -11,6 +12,7 @@ export function useUpdateUser() {
   const name = ref("")
   const email = ref("")
   const lastName = ref("")
+  const cpf = ref("")
 
   const loading = ref(false)
   const error = ref(null)
@@ -22,6 +24,11 @@ export function useUpdateUser() {
     name.value = user.name
     email.value = user.email
     lastName.value = user.lastName
+    cpf.value = user.cpf ? maskCpf(user.cpf) : ""
+  }
+
+  const onCpfInput = (value) => {
+    cpf.value = maskCpf(value)
   }
 
   const update = async () => {
@@ -33,6 +40,7 @@ export function useUpdateUser() {
         name: name.value,
         email: email.value,
         lastName: lastName.value,
+        cpf: stripCpf(cpf.value),
       })
 
       router.push("/users")
@@ -48,11 +56,13 @@ export function useUpdateUser() {
     name,
     email,
     lastName,
+    cpf,
 
     loading,
     error,
 
     loadUser,
+    onCpfInput,
     update,
   }
 }
