@@ -1,11 +1,20 @@
+# core/routes.py
+import importlib
+import pkgutil
+from pathlib import Path
 from fastapi import FastAPI
-
-from app.modules.user.presentation.routes import router as user_router
-from app.modules.auth.presentation.routes import router as auth_router
-from app.modules.address.presentation.routes import router as address_router
-
+from fastapi import APIRouter
 
 def register_routers(app: FastAPI) -> None:
-    app.include_router(auth_router)
-    app.include_router(user_router)
-    app.include_router(address_router)
+    modules_path = Path(__file__).parent.parent / "modules"
+    
+    for module_dir in modules_path.iterdir():
+        if not module_dir.is_dir():
+            continue
+        routes_module = f"app.modules.{module_dir.name}.presentation.routes"
+        try:
+            mod = importlib.import_module(routes_module)
+            if hasattr(mod, "router"):
+                app.include_router(mod.router)
+        except ModuleNotFoundError:
+            pass
