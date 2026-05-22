@@ -17,7 +17,20 @@
     <Column field="lastName" header="Sobrenome" />
     <Column field="cpf" header="CPF" />
 
-    <Column header="Ações" style="width: 9rem">
+    <Column header="Endereços" style="width: 10rem">
+      <template #body="{ data }">
+        <BaseButton
+          label="Endereços"
+          icon="pi pi-map-marker"
+          severity="success"
+          size="small"
+          outlined
+          @click="emit('addresses', data.id)"
+        />
+      </template>
+    </Column>
+
+    <Column header="Ações" style="width: 7rem">
       <template #body="{ data }">
         <div class="flex gap-1">
           <BaseButton
@@ -56,5 +69,5 @@ defineProps({
   size: { type: Number, default: 10 },
 })
 
-const emit = defineEmits(['edit', 'delete', 'page'])
+const emit = defineEmits(['edit', 'delete', 'page', 'addresses'])
 </script>

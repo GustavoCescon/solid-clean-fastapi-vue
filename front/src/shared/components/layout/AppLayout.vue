@@ -15,12 +15,25 @@
         <nav class="navbar-nav">
           <router-link to="/users" class="nav-link" active-class="nav-link--active">
             <i class="pi pi-users" />
-            <span>Users</span>
+            <span>Usuários</span>
           </router-link>
           <router-link to="/users/create" class="nav-link" active-class="nav-link--active">
             <i class="pi pi-user-plus" />
-            <span>Create</span>
+            <span>Novo Usuário</span>
           </router-link>
+
+          <!-- Contextual: aparece apenas quando estiver em rotas de endereço -->
+          <template v-if="userId">
+            <span class="nav-separator">›</span>
+            <router-link :to="`/users/${userId}/addresses`" class="nav-link" active-class="nav-link--active">
+              <i class="pi pi-map-marker" />
+              <span>Endereços</span>
+            </router-link>
+            <router-link :to="`/users/${userId}/addresses/create`" class="nav-link" active-class="nav-link--active">
+              <i class="pi pi-plus" />
+              <span>Novo Endereço</span>
+            </router-link>
+          </template>
         </nav>
 
         <!-- Right side -->
@@ -43,10 +56,14 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { authStore } from '@/modules/auth/store/authStore'
-import { useRouter } from 'vue-router'
 
+const route = useRoute()
 const router = useRouter()
+
+const userId = computed(() => route.params.userId ?? null)
 
 function handleLogout() {
   authStore.logout()
@@ -133,6 +150,13 @@ function handleLogout() {
   background: var(--p-primary-50, #eef2ff);
   color: var(--p-primary-color, #6366f1);
   font-weight: 600;
+}
+
+.nav-separator {
+  color: var(--p-surface-400, #94a3b8);
+  font-size: 1rem;
+  padding: 0 0.1rem;
+  user-select: none;
 }
 
 /* Right side */

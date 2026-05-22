@@ -1,5 +1,6 @@
 from app.core.database import Base
 from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 
@@ -10,6 +11,8 @@ class UserModel(Base):
     name = Column(String)
     lastName = Column(String)
     cpf = Column(String, unique=True, nullable=True)
+    addresses = relationship("AddressModel", back_populates="user", cascade="all, delete-orphan")
+
     created_at = Column(
         DateTime(timezone=True),
         server_default=func.now(),

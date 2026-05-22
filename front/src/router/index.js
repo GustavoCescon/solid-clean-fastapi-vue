@@ -5,6 +5,9 @@ import UsersListPage from "../modules/user/pages/UsersListPage.vue"
 import UsersCreatePage from "../modules/user/pages/UsersCreatePage.vue"
 import RegisterPage from "../modules/auth/pages/RegisterPage.vue"
 import UsersEditPage from "../modules/user/pages/UsersEditPage.vue"
+import AddressListPage from "../modules/address/pages/AddressListPage.vue"
+import AddressCreatePage from "../modules/address/pages/AddressCreatePage.vue"
+import AddressEditPage from "../modules/address/pages/AddressEditPage.vue"
 
 const routes = [
   { path: "/login", component: LoginPage },
@@ -28,6 +31,21 @@ const routes = [
   {
     path: "/users/create",
     component: UsersCreatePage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/users/:userId/addresses",
+    component: AddressListPage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/users/:userId/addresses/create",
+    component: AddressCreatePage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/users/:userId/addresses/:addressId/edit",
+    component: AddressEditPage,
     meta: { requiresAuth: true },
   },
   {

@@ -40,6 +40,7 @@
             @edit="goToEdit"
             @delete="confirmDelete"
             @page="onPage"
+            @addresses="goToAddresses"
           />
         </template>
 
@@ -73,6 +74,7 @@ const { users, total, size, loading, error, fetchUsers, onPage, deleteUser } = u
 onMounted(fetchUsers)
 
 const goToEdit = (id) => router.push(`/users/${id}/edit`)
+const goToAddresses = (id) => router.push(`/users/${id}/addresses`)
 
 const confirmDelete = (id) => {
   confirm.require({
